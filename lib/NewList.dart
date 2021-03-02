@@ -7,8 +7,9 @@ class NewList extends StatefulWidget{
 
 
 class HomePage extends State<NewList>{
-  List<String> items = ["milk"];
-  String input = "";
+  List<String> items = [];
+  String inputItem = "";
+  String inputCompany = "";
 
   // @override
   // void initState(){
@@ -16,14 +17,23 @@ class HomePage extends State<NewList>{
   //   items.add("item1");
   // }
 
-  void addItem(String input){
+  void addItem(String inputItem, String inputCompany){
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      items.add(input);
+      if (inputItem == ""){
+        return;
+      }
+      String item;
+      if (inputCompany == ""){
+        item = "item:   " + inputItem;
+      } else {
+        item = "item:   " + inputItem + "      company:   " + inputCompany;
+      }
+      items.add(item);
     });
   }
 
@@ -69,16 +79,40 @@ class HomePage extends State<NewList>{
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)
+                ),
                 title: Text("add item"),
-                content: TextField(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'Item name'
+                      ),
                   onChanged: (String itemName){
-                    input = itemName;
+                    inputItem = itemName;
               },
+              ),
+                    TextField(
+                      decoration: InputDecoration(
+                          labelText: 'Company name'
+                      ),
+                      onChanged: (String companyName){
+                        inputCompany = companyName;
+                      },
+                    ),
+                  ],
               ),
                 actions: <Widget>[
                   FlatButton(
                     onPressed: () {
-                      addItem(input);
+                      addItem(inputItem,inputCompany);
+                      inputItem = "";
+                      inputCompany = "";
                       Navigator.of(context).pop();
                     },
                     child: Text("Add"))
