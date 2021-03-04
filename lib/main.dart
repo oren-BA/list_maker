@@ -53,96 +53,165 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List lists = [];
+  String inputList = "";
+  Map<String,NewList> listPages = {};
 
-  void _incrementCounter() {
+  void addList(String inputList) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      if (inputList == "") {
+        return;
+      }
+      lists.add(inputList);
+      listPages[inputList] = NewList(name: inputList);
     });
-    // Text('hello');
   }
+
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You dont have any lists',
-              style: new TextStyle(
-                fontSize: 25.0,
-                // color: Colors.red
+    return lists.isEmpty
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text(widget.title),
+              centerTitle: true,
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'You dont have any lists',
+                    style: new TextStyle(
+                      fontSize: 25.0,
+                      // color: Colors.red
+                    ),
+                  ),
+                  Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('click here to add or join lists')
+                      ])
+                ],
               ),
             ),
-
-            Icon(
-              Icons.error_outline,
-              color: Colors.red,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        title: Text("add List"),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'List name'),
+                              onChanged: (String listName) {
+                                inputList = listName;
+                              },
+                            ),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                              onPressed: () {
+                                addList(inputList);
+                                inputList = "";
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Add"))
+                        ],
+                      );
+                    });
+              },
+              tooltip: 'Increment',
+              child: Icon(Icons.add),
+            ))
+        : Scaffold(
+            appBar: AppBar(
+              title: Text("Your lists"),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                  Text('click here to add or join lists')
-              ]
-            )
-            // Padding(
-            //     padding: EdgeInsets.fromLTRB(0, 600, 0, 0),
-            //     child: Text('click here to add or join lists'),
-            // ),
-            // Padding(
-            //     padding: EdgeInsets.fromLTRB(210, 0, 10, 0),
-            //     child: Icon(Icons.arrow_forward_outlined)
-            // )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => NewList()),
-            );
-            },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+            body: ListView.builder(
+              itemCount: lists.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                    key: Key(lists[index]),
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        elevation: 4,
+                        margin: EdgeInsets.all(4),
+                        child: ListTile(
+                          title: Text(lists[index]),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.redAccent,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                lists.removeAt(index);
+                              });
+                            },
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => listPages[lists[index]]),
+                            );
+                          },
+                        )));
+              },
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        title: Text("add List"),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'List name'),
+                              onChanged: (String listName) {
+                                inputList = listName;
+                              },
+                            ),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                              onPressed: () {
+                                addList(inputList);
+                                inputList = "";
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Add"))
+                        ],
+                      );
+                    });
+              },
+              tooltip: 'Increment',
+              child: Icon(Icons.add),
+            ));
   }
 }
-
-
