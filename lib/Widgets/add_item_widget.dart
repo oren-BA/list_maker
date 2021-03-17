@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:list_maker/Pages/NewList.dart';
+import 'package:list_maker/Pages/ListPage.dart';
 
 class AddItemWidget extends StatelessWidget {
   HomePage fatherWidget;
@@ -9,8 +9,16 @@ class AddItemWidget extends StatelessWidget {
 
   AddItemWidget(this.fatherWidget);
 
-  Map buildItem(String item_name, String company_name) {
-    return {"item_name": item_name, "company_name": company_name};
+  Map buildItem(String itemName, String companyName) {
+    return {"item_name": itemName, "company_name": companyName};
+  }
+
+  void addItemButton(BuildContext context){
+    fatherWidget.itemAction(
+        buildItem(inputItem, inputCompany), 'add_item');
+    inputItem = "";
+    inputCompany = "";
+    Navigator.of(context).pop();
   }
 
   @override
@@ -46,18 +54,13 @@ class AddItemWidget extends StatelessWidget {
                 actions: <Widget>[
                   FlatButton(
                       onPressed: () {
-                        fatherWidget.itemAction(
-                            buildItem(inputItem, inputCompany), 'add_item');
-                        inputItem = "";
-                        inputCompany = "";
-                        Navigator.of(context).pop();
+                        addItemButton(context);
                       },
                       child: Text("Add"))
                 ],
               );
             });
       },
-      tooltip: 'Increment',
       child: Icon(Icons.add),
     );
   }

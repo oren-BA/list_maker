@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:list_maker/Pages/main.dart';
-import 'package:list_maker/Widgets/add_list_widget.dart';
+import 'package:list_maker/Pages/MainPage.dart';
 
 class ClickableAvatarWidget extends StatelessWidget {
   var user;

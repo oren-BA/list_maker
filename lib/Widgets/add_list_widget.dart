@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:list_maker/Pages/main.dart';
+import 'package:list_maker/Pages/MainPage.dart';
 
 class AddListWidget extends StatefulWidget {
   String inputList = "";

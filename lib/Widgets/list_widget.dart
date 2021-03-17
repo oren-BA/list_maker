@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:list_maker/Pages/main.dart';
+import 'package:list_maker/Pages/MainPage.dart';
 import 'package:list_maker/Widgets/add_list_widget.dart';
 import 'package:list_maker/Widgets/clickable_avatar_widget.dart';
 
@@ -22,6 +22,16 @@ class _ListWidgetState extends State<ListWidget> {
   void initState() {
     super.initState();
     widget.homePage.refreshLists();
+  }
+
+
+  void tapOnList(int index){
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => widget.homePage.listPages[
+          widget.homePage.lists[index]["list_name"]]),
+    );
   }
 
   @override
@@ -48,19 +58,14 @@ class _ListWidgetState extends State<ListWidget> {
                       trailing: IconButton(
                         icon: Icon(
                           Icons.delete,
-                          color: Colors.redAccent,
+                          color: Colors.red[300],
                         ),
                         onPressed: () {
                           widget.homePage.removeList(widget.user, index);
                         },
                       ),
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => widget.homePage.listPages[
-                                  widget.homePage.lists[index]["list_name"]]),
-                        );
+                        tapOnList(index);
                       },
                     )));
           },

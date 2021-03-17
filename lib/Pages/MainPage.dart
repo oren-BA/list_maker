@@ -1,24 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:list_maker/Widgets/list_widget.dart';
-import 'package:list_maker/Widgets/loading_widget.dart';
+import 'package:list_maker/API/api_requests.dart';
 import 'package:list_maker/Widgets/no_lists_widget.dart';
 import 'package:list_maker/Widgets/signIn_widget.dart';
-import 'NewList.dart';
+import 'package:list_maker/Widgets/list_widget.dart';
+import 'package:list_maker/Widgets/loading_widget.dart';
+import 'ListPage.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:list_maker/provider/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:list_maker/API/api_requests.dart';
 
-Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   @override
@@ -66,7 +60,7 @@ class MyHomePage extends StatefulWidget {
   removeList(final user, int index) async {
     final idToken = await user.getIdToken(true);
     Response response =
-        await listAction(idToken, 'remove_list', lists[index]["list_name"]);
+    await listAction(idToken, 'remove_list', lists[index]["list_name"]);
     lists = json.decode(response.body);
     controller.add(lists);
   }
@@ -103,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              Provider.of<GoogleSignInProvider>(context, listen: false);
               final user = FirebaseAuth.instance.currentUser;
               if (provider.isSigningIn) {
                 return LoadingWidget();

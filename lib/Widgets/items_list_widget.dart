@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:list_maker/Pages/NewList.dart';
+import 'package:list_maker/Pages/ListPage.dart';
 
 
 class ItemsListWidget extends StatelessWidget {
