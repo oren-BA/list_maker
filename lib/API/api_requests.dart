@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:list_maker/config.dart';
+
 Future<http.Response> getUserLists(String token) {
   return http.post(
     Uri.http('10.0.2.2:5000', '/get_lists'),
@@ -8,7 +10,7 @@ Future<http.Response> getUserLists(String token) {
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'token': token,
+      CONFIG.token: token,
     }),
   );
 }
@@ -22,8 +24,8 @@ Future<http.Response> listAction(String token, String action, String listName) {
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'token': token,
-      'list_name': listName,
+      CONFIG.token: token,
+      CONFIG.list_name: listName,
     }),
   );
 }
@@ -39,10 +41,10 @@ Future<http.Response> itemActionAPI(String token, String action, String listName
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
-      'token': token,
-      'list_name': listName,
-      'item_name': itemName,
-      'company_name': companyName,
+      CONFIG.token: token,
+      CONFIG.list_name: listName,
+      CONFIG.item_name: itemName,
+      CONFIG.company_name: companyName,
     }),
   );
 }

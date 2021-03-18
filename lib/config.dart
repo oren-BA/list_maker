@@ -1,4 +1,5 @@
 class CONFIG {
+  static final String token = 'token';
   static final String list_name = 'list_name';
   static final String item_name = 'item_name';
   static final String company_name = 'company_name';
