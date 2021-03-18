@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:list_maker/Pages/ListPage.dart';
+import 'package:list_maker/config.dart';
 
 
 class ItemsListWidget extends StatelessWidget {
@@ -14,14 +15,14 @@ class ItemsListWidget extends StatelessWidget {
   ItemsListWidget(this.fatherWidget, this.itemsList, this.checkAction, this.controller);
 
   String formatItem(Map item) {
-    if (item["company_name"] == ""){
+    if (item[CONFIG.company_name] == CONFIG.empty_string){
       return "item:  " +
-          item["item_name"];
+          item[CONFIG.item_name];
     }
     return "item:  " +
-        item["item_name"] +
+        item[CONFIG.item_name] +
         "     company:  " +
-        item["company_name"];
+        item[CONFIG.company_name];
   }
 
   @override
@@ -30,7 +31,7 @@ class ItemsListWidget extends StatelessWidget {
       child: ListView.builder(
         itemCount: itemsList.length,
         itemBuilder: (BuildContext context, int index) {
-          String item_name = itemsList[index]["item_name"];
+          String item_name = itemsList[index][CONFIG.item_name];
           return Dismissible(
               key: Key(item_name),
               child: Card(

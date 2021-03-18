@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:list_maker/Pages/MainPage.dart';
 import 'package:list_maker/Widgets/error_message_widget.dart';
+import 'package:list_maker/config.dart';
 
 class AddListWidget extends StatefulWidget {
-  String inputList = "";
+  String inputList = CONFIG.empty_string;
   var user;
   MyHomePage homePage;
   var fatherWidget;
@@ -25,7 +26,7 @@ class _AddListWidgetState extends State<AddListWidget> {
     return StreamBuilder(
         stream: widget.controller.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != "") {
+          if (snapshot.hasData && snapshot.data != CONFIG.empty_string) {
               return ErrorMessageWidget(snapshot.data, widget.controller);
           }
           return FloatingActionButton(
@@ -36,7 +37,7 @@ class _AddListWidgetState extends State<AddListWidget> {
                     return AlertDialog(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
-                      title: Text("add List"),
+                      title: Text(CONFIG.add_list_widget_title),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +56,7 @@ class _AddListWidgetState extends State<AddListWidget> {
                             onPressed: () {
                               widget.homePage.addList(widget.user,
                                   widget.inputList, widget.controller);
-                              widget.inputList = "";
+                              widget.inputList = CONFIG.empty_string;
                               Navigator.of(context).pop();
                             },
                             child: Text("Add"))
@@ -63,7 +64,6 @@ class _AddListWidgetState extends State<AddListWidget> {
                     );
                   });
             },
-            tooltip: 'Increment',
             child: Icon(Icons.add),
           );
         });

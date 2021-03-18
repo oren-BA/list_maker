@@ -3,25 +3,26 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:list_maker/Pages/ListPage.dart';
+import 'package:list_maker/config.dart';
 
 import 'error_message_widget.dart';
 
 class AddItemWidget extends StatelessWidget {
   HomePage fatherWidget;
-  String inputItem = "";
-  String inputCompany = "";
+  String inputItem = CONFIG.empty_string;
+  String inputCompany = CONFIG.empty_string;
   StreamController<String> controller = StreamController.broadcast();
 
   AddItemWidget(this.fatherWidget, this.controller);
 
   Map buildItem(String itemName, String companyName) {
-    return {"item_name": itemName, "company_name": companyName};
+    return {CONFIG.item_name: itemName, CONFIG.company_name: companyName};
   }
 
   void addItemButton(BuildContext context) {
-    fatherWidget.itemAction(buildItem(inputItem, inputCompany), 'add_item', controller);
-    inputItem = "";
-    inputCompany = "";
+    fatherWidget.itemAction(buildItem(inputItem, inputCompany), CONFIG.add_item, controller);
+    inputItem = CONFIG.empty_string;
+    inputCompany = CONFIG.empty_string;
     Navigator.of(context).pop();
   }
 
@@ -30,7 +31,7 @@ class AddItemWidget extends StatelessWidget {
     return StreamBuilder(
         stream: controller.stream,
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != "") {
+          if (snapshot.hasData && snapshot.data != CONFIG.empty_string) {
             return ErrorMessageWidget(snapshot.data, controller);
           }
           return FloatingActionButton(
@@ -41,7 +42,7 @@ class AddItemWidget extends StatelessWidget {
                     return AlertDialog(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),
-                      title: Text("add item"),
+                      title: Text(CONFIG.add_item_widget_title),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,

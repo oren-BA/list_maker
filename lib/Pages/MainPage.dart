@@ -7,6 +7,7 @@ import 'package:list_maker/Widgets/no_lists_widget.dart';
 import 'package:list_maker/Widgets/signIn_widget.dart';
 import 'package:list_maker/Widgets/list_widget.dart';
 import 'package:list_maker/Widgets/loading_widget.dart';
+import 'package:list_maker/config.dart';
 import 'ListPage.dart';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'List maker',
+      title: CONFIG.app_title,
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: MyHomePage('List maker'),
+      home: MyHomePage(CONFIG.app_title),
     );
   }
 }
@@ -43,13 +44,12 @@ class MyHomePage extends StatefulWidget {
 
   addList(final user, String inputList,
       StreamController<String> errorController) async {
-    if (inputList == "") {
+    if (inputList == CONFIG.empty_string) {
       return;
     }
     final idToken = await user.getIdToken(true);
-    Response response = await listAction(idToken, 'add_list', inputList);
+    Response response = await listAction(idToken, CONFIG.add_list, inputList);
     if (response.body[0] != "[") {
-      print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
       errorController.add(response.body);
       return;
     }
@@ -61,7 +61,7 @@ class MyHomePage extends StatefulWidget {
   removeList(final user, int index) async {
     final idToken = await user.getIdToken(true);
     Response response =
-        await listAction(idToken, 'remove_list', lists[index]["list_name"]);
+        await listAction(idToken, CONFIG.remove_list, lists[index][CONFIG.list_name]);
     lists = json.decode(response.body);
     listController.add(lists);
   }
@@ -73,8 +73,8 @@ class MyHomePage extends StatefulWidget {
     Response response = await getUserLists(idToken);
     lists = json.decode(response.body);
     for (var e in lists) {
-      listPages[e["list_name"]] =
-          NewList(user, e["list_name"], e["uncheckedItems"], e["checkedItems"]);
+      listPages[e[CONFIG.list_name]] =
+          NewList(user, e[CONFIG.list_name], e[CONFIG.unchecked_items], e[CONFIG.checked_items]);
     }
     listController.add(lists);
   }

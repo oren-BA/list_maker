@@ -7,10 +7,11 @@ import 'dart:convert';
 import 'package:list_maker/API/api_requests.dart';
 import 'package:list_maker/Widgets/add_item_widget.dart';
 import 'package:list_maker/Widgets/items_list_widget.dart';
+import 'package:list_maker/config.dart';
 
 class NewList extends StatefulWidget {
   final user;
-  String list_name = "";
+  String list_name = CONFIG.empty_string;
   List uncheckedItems = [];
   List checkedItems = [];
   StreamController<String> controller = StreamController.broadcast();
@@ -22,8 +23,8 @@ class NewList extends StatefulWidget {
 }
 
 class HomePage extends State<NewList> with AutomaticKeepAliveClientMixin {
-  String inputItem = "";
-  String inputCompany = "";
+  String inputItem = CONFIG.empty_string;
+  String inputCompany = CONFIG.empty_string;
   String item;
   bool tapped;
 
@@ -31,14 +32,14 @@ class HomePage extends State<NewList> with AutomaticKeepAliveClientMixin {
       Map item, String action, StreamController<String> errorController) async {
     final idToken = await widget.user.getIdToken(true);
     Response response = await itemActionAPI(idToken, action, widget.list_name,
-        item["item_name"], item["company_name"]);
+        item[CONFIG.item_name], item[CONFIG.company_name]);
     if (response.body[0] != "{") {
       errorController.add(response.body);
       return;
     }
     Map userList = json.decode(response.body);
-    widget.checkedItems = userList["checkedItems"];
-    widget.uncheckedItems = userList["uncheckedItems"];
+    widget.checkedItems = userList[CONFIG.checked_items];
+    widget.uncheckedItems = userList[CONFIG.unchecked_items];
     setState(() {});
   }
 
