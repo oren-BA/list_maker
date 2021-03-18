@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "212852685677",
+    "project_id": "listmaker-3336d",
+    "storage_bucket": "listmaker-3336d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212852685677:android:576107c3c8aaa730cfb864",
+        "android_client_info": {
+          "package_name": "com.example.list_maker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212852685677-hulu3pqai21sukk60qt6fu9r5a92jouv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.list_maker",
+            "certificate_hash": "c5313ebeff699139ea648460a9674b9c9bf58adb"
+          }
+        },
+        {
+          "client_id": "212852685677-n3dmkqdsrnoj0furl3ooq548vgopu96r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2CzqHy-lQfypNB5kehamAC-deTnLaVv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212852685677-n3dmkqdsrnoj0furl3ooq548vgopu96r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
