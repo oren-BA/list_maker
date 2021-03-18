@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:list_maker/Pages/ListPage.dart';
@@ -7,7 +9,9 @@ class ItemsListWidget extends StatelessWidget {
   HomePage fatherWidget;
   List itemsList;
   String checkAction;
-  ItemsListWidget(this.fatherWidget, this.itemsList, this.checkAction);
+  StreamController<String> controller = StreamController.broadcast();
+
+  ItemsListWidget(this.fatherWidget, this.itemsList, this.checkAction, this.controller);
 
   String formatItem(Map item) {
     if (item["company_name"] == ""){
@@ -51,7 +55,7 @@ class ItemsListWidget extends StatelessWidget {
                             ),
                             onPressed: () {
                               fatherWidget.itemAction(
-                                  itemsList[index], 'remove_item');
+                                  itemsList[index], 'remove_item', controller);
                             },
                           ),
                           IconButton(
@@ -61,7 +65,7 @@ class ItemsListWidget extends StatelessWidget {
                             ),
                             onPressed: () {
                               fatherWidget.itemAction(
-                                  itemsList[index], checkAction);
+                                  itemsList[index], checkAction, controller);
                             },
                           ),
                         ])),
